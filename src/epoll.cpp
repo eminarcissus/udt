@@ -107,6 +107,8 @@ int CEPoll::add_usock(const int eid, const UDTSOCKET& u, const int* events)
    return 0;
 }
 
+
+
 int CEPoll::add_ssock(const int eid, const SYSSOCKET& s, const int* events)
 {
    CGuard pg(m_EPollLock);
@@ -140,6 +142,18 @@ int CEPoll::add_ssock(const int eid, const SYSSOCKET& s, const int* events)
    p->second.m_sLocals.insert(s);
 
    return 0;
+}
+
+void CEPoll::remove_events(const UDTSOCKET& uid)
+{
+	CGuard pg(m_EPollLock);
+	map<int, CEPollDesc>::iterator p;
+	for (p = m_mPolls.begin(); p != m_mPolls.end(); ++p)
+	{ 
+		p->second.m_sUDTReads.erase(uid);
+		p->second.m_sUDTWrites.erase(uid);
+		p->second.m_sUDTExcepts.erase(uid);
+	}
 }
 
 int CEPoll::remove_usock(const int eid, const UDTSOCKET& u)

@@ -1185,6 +1185,7 @@ void CUDTUnited::checkBrokenSockets()
 
    for (map<UDTSOCKET, CUDTSocket*>::iterator i = m_Sockets.begin(); i != m_Sockets.end(); ++ i)
    {
+      m_EPoll.update_events(i->first, i->second->m_pUDT->m_sPollID, UDT_EPOLL_IN, true);
       // check broken connection
       if (i->second->m_pUDT->m_bBroken)
       {
@@ -1822,6 +1823,7 @@ int CUDT::recv(UDTSOCKET u, char* buf, int len, int)
    }
    catch (CUDTException e)
    {
+      s_UDTUnited.m_EPoll.remove_events(u);
       s_UDTUnited.setError(new CUDTException(e));
       return ERROR;
    }
@@ -1865,6 +1867,7 @@ int CUDT::recvmsg(UDTSOCKET u, char* buf, int len)
    }
    catch (CUDTException e)
    {
+      s_UDTUnited.m_EPoll.remove_events(u);
       s_UDTUnited.setError(new CUDTException(e));
       return ERROR;
    }

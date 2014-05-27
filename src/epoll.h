@@ -81,6 +81,7 @@ public: // for CUDTUnited API
       //    new EPoll ID if success, otherwise an error number.
 
    int create();
+   void remove_events(const UDTSOCKET& uid);
 
       // Functionality:
       //    add a UDT socket to an EPoll.
