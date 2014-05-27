@@ -1008,6 +1008,9 @@ void CUDT::close()
 
    // CLOSED.
    m_bOpened = false;
+
+   // Send closed signal to local event pool either
+   s_UDTUnited.m_EPoll.update_events(m_SocketID, m_sPollID, UDT_EPOLL_IN, true);
 }
 
 int CUDT::send(const char* data, int len)
