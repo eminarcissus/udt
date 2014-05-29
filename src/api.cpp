@@ -1201,7 +1201,7 @@ void CUDTUnited::checkBrokenSockets()
          }
 
          //close broken connections and start removal timer
-         m_EPoll.update_events(i->first, i->second->m_pUDT->m_sPollID, UDT_EPOLL_ERR, true);
+         //m_EPoll.update_events(i->first, i->second->m_pUDT->m_sPollID, UDT_EPOLL_ERR, true);
          i->second->m_Status = CLOSED;
          i->second->m_TimeStamp = CTimer::getTime();
          tbc.push_back(i->first);
