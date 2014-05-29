@@ -1185,7 +1185,7 @@ void CUDTUnited::checkBrokenSockets()
 
    for (map<UDTSOCKET, CUDTSocket*>::iterator i = m_Sockets.begin(); i != m_Sockets.end(); ++ i)
    {
-      m_EPoll.update_events(i->first, i->second->m_pUDT->m_sPollID, UDT_EPOLL_IN, true);
+      m_EPoll.update_events(i->first, i->second->m_pUDT->m_sPollID, UDT_EPOLL_ERR, true);
       // check broken connection
       if (i->second->m_pUDT->m_bBroken)
       {

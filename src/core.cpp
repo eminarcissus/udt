@@ -952,7 +952,7 @@ void CUDT::close()
       m_pSndQueue->m_pSndUList->remove(this);
 
    // trigger any pending IO events.
-   s_UDTUnited.m_EPoll.update_events(m_SocketID, m_sPollID, UDT_EPOLL_IN, true);
+   s_UDTUnited.m_EPoll.update_events(m_SocketID, m_sPollID, UDT_EPOLL_ERR, true);
    // then remove itself from all epoll monitoring
    try
    {
@@ -1010,7 +1010,7 @@ void CUDT::close()
    m_bOpened = false;
 
    // Send closed signal to local event pool either
-   s_UDTUnited.m_EPoll.update_events(m_SocketID, m_sPollID, UDT_EPOLL_IN, true);
+   s_UDTUnited.m_EPoll.update_events(m_SocketID, m_sPollID, UDT_EPOLL_ERR, true);
 }
 
 int CUDT::send(const char* data, int len)
