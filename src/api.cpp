@@ -1185,7 +1185,6 @@ void CUDTUnited::checkBrokenSockets()
 
    for (map<UDTSOCKET, CUDTSocket*>::iterator i = m_Sockets.begin(); i != m_Sockets.end(); ++ i)
    {
-      m_EPoll.update_events(i->first, i->second->m_pUDT->m_sPollID, UDT_EPOLL_ERR, true);
       // check broken connection
       if (i->second->m_pUDT->m_bBroken)
       {
@@ -1202,6 +1201,7 @@ void CUDTUnited::checkBrokenSockets()
          }
 
          //close broken connections and start removal timer
+         m_EPoll.update_events(i->first, i->second->m_pUDT->m_sPollID, UDT_EPOLL_ERR, true);
          i->second->m_Status = CLOSED;
          i->second->m_TimeStamp = CTimer::getTime();
          tbc.push_back(i->first);
@@ -1230,6 +1230,7 @@ void CUDTUnited::checkBrokenSockets()
          // asynchronous close: 
          if ((NULL == j->second->m_pUDT->m_pSndBuffer) || (0 == j->second->m_pUDT->m_pSndBuffer->getCurrBufSize()) || (j->second->m_pUDT->m_ullLingerExpiration <= CTimer::getTime()))
          {
+            m_EPoll.update_events(j->first, j->second->m_pUDT->m_sPollID, UDT_EPOLL_ERR, true);
             j->second->m_pUDT->m_ullLingerExpiration = 0;
             j->second->m_pUDT->m_bClosing = true;
             j->second->m_TimeStamp = CTimer::getTime();
